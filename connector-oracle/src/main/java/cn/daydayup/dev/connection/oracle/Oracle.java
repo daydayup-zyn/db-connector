@@ -3,11 +3,9 @@ package cn.daydayup.dev.connection.oracle;
 import cn.daydayup.dev.connection.core.constants.DatabaseConstants;
 import cn.daydayup.dev.connection.core.database.AbstractJdbcDataSource;
 import cn.daydayup.dev.connection.core.pool.ConnectionTool;
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

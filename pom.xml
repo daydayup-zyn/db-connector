@@ -21,6 +21,7 @@
         <module>connector-core</module>
         <module>connector-mysql</module>
         <module>connector-oracle</module>
+        <module>connector-postgresql</module>
         <module>connector-test</module>
     </modules>
 

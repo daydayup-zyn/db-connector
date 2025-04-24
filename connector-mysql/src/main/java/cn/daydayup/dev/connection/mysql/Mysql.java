@@ -3,19 +3,14 @@ package cn.daydayup.dev.connection.mysql;
 import cn.daydayup.dev.connection.core.constants.DatabaseConstants;
 import cn.daydayup.dev.connection.core.database.AbstractJdbcDataSource;
 import cn.daydayup.dev.connection.core.pool.ConnectionTool;
-import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * @ClassName Mysql
