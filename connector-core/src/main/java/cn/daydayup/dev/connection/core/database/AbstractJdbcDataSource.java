@@ -2,13 +2,19 @@ package cn.daydayup.dev.connection.core.database;
 
 import cn.daydayup.dev.connection.core.constants.ConnectingPoolConstants;
 import cn.daydayup.dev.connection.core.constants.DatabaseConstants;
+import cn.daydayup.dev.connection.core.pool.ConnectionTool;
 import cn.daydayup.dev.connection.core.pool.JdbcConnectionPool;
 import cn.daydayup.dev.connection.core.utils.Configuration;
 import cn.daydayup.dev.connection.core.utils.DataSourceKey;
+import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.dbcp2.BasicDataSource;
 import javax.sql.DataSource;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * @ClassName AbstractJdbcDataSource
@@ -64,4 +70,83 @@ public abstract class AbstractJdbcDataSource extends AbstractDataSource implemen
      * @throws Exception
      */
     abstract protected Connection getSingleConnection() throws Exception;
+
+    /**
+     * 执行DML
+     *
+     * @param sql dml代码
+     * @return
+     */
+    protected String manipulate(String sql) {
+        Connection conn = null;
+        Statement st = null;
+        PreparedStatement ps = null;
+        try {
+            conn = getConnection();
+            st = conn.createStatement();
+            return String.valueOf(st.executeUpdate(sql));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            ConnectionTool.closeDBResource(conn, null, st);
+        }
+    }
+
+    /**
+     * 字符串gzip压缩
+     *
+     * @param primStr 需要压缩的字符串
+     * @return java.lang.String
+     * @author fanyanyan
+     * @date 2020/10/23 10:59
+     */
+    @SuppressWarnings("restriction")
+    protected static String gzip(String primStr) {
+        if (primStr == null || primStr.isEmpty()) {
+            return primStr;
+        }
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = null;
+        try {
+            gzip = new GZIPOutputStream(out);
+            gzip.write(primStr.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (gzip != null) {
+                try {
+                    gzip.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return Base64.getEncoder().encodeToString(out.toByteArray());
+    }
+
+
+    /**
+     * 友好的展示blob字段
+     *
+     * @param rs
+     * @param i
+     * @return java.lang.String
+     * @author bly
+     * @date 2021/6/23 17:32
+     */
+    protected String handleBlob(ResultSet rs, int i) {
+        try {
+            Blob blob = rs.getBlob(i);
+            if (blob == null) {
+                return null;
+            }
+            int length = (int) blob.length();
+            String blobString = new String(blob.getBytes(1, length), StandardCharsets.ISO_8859_1);
+            blobString = gzip(blobString);
+            return "(blob)" + blob.length() + "byte" + " |-| " + blobString;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

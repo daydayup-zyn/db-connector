@@ -106,7 +106,8 @@ public class Example {
 ```
 
 ## 后续计划
-- 添加更多数据库类型支持（PG、Oracle）。
+- ~~添加Oracle数据库的支持。~~
+- 添加PostgreSQL数据库的支持。
 - 增加更多SQL操作功能，如查询表结构、查询表数据等。
 
 ## 注意事项

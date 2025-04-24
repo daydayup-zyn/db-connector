@@ -8,6 +8,7 @@ package cn.daydayup.dev.connection.core.constants;
  * @Version 1.0
  */
 public class DatabaseConstants {
+    public static final String SPACE = "space";
     public static final String URL = "jdbcUrl";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";

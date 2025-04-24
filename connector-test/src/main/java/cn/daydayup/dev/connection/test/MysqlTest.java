@@ -7,8 +7,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 
 /**
- * @ClassName Test
- * @Description TODO
+ * @ClassName MysqlTest
+ * @Description mysql连接器测试
  * @Author ZhaoYanNing
  * @Date 2024/4/18 18:35
  * @Version 1.0
@@ -31,7 +31,7 @@ public class MysqlTest {
         DatabaseAdapter adapter = DatabaseAdapter.getAdapter();
         adapter.setConfig(config);
         AbstractJdbcDataSource dataSource = (AbstractJdbcDataSource) adapter.getDataSource();
-        Pair<List<String>, List<List<String>>> chatModel = dataSource.getAllTableInfo();
-        System.out.println(JSON.toJSONString(chatModel));
+        Pair<List<String>, List<List<String>>> allTables = dataSource.getAllTableInfo();
+        System.out.println(JSON.toJSONString(allTables));
     }
 }

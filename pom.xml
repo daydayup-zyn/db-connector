@@ -20,6 +20,7 @@
     <modules>
         <module>connector-core</module>
         <module>connector-mysql</module>
+        <module>connector-oracle</module>
         <module>connector-test</module>
     </modules>
 
